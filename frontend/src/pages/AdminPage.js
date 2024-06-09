@@ -1,10 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-// AdminPage.js
+import './AdminPage.css'; // Import the CSS file
 import AdminDashboard from '../components/Admin/AdminDashboard';
-
-
-
 
 const AdminPage = () => {
     const navigate = useNavigate();
@@ -18,9 +15,12 @@ const AdminPage = () => {
 
     return (
         <div>
-            <h1>Welcome to the Admin Dashboard</h1>
-            {/* Display content of AdminDashboard component */}
-            <AdminDashboard />
+            <nav className="navbar">
+                <h1 className="navbar-title">Welcome to the Admin Dashboard</h1>
+            </nav>
+            <div className="admin-dashboard-container">
+                <AdminDashboard />
+            </div>
         </div>
     );
 };

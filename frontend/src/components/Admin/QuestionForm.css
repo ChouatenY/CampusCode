@@ -1,0 +1,31 @@
+/* src/components/Admin/QuestionForm.css */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    height: 150px;
+    resize: none;
+}
+
+.add-question-btn {
+    background-color: #0072c6;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    cursor: pointer;
+    align-self: flex-end; /* Align button to the right */
+    width: auto; /* Auto width to fit content */
+}
+
+.add-question-btn:hover {
+    background-color: #005a9e;
+}

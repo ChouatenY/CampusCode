@@ -4,6 +4,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const adminRoutes = require('./routes/admin');
+const studentRoutes = require('./routes/student'); // Import student routes
 
 const app = express();
 
@@ -17,7 +18,8 @@ app.use(session({
 }));
 
 // Routes
-app.use('/api/admin', adminRoutes);
+app.use('/admin', adminRoutes);
+app.use('/student', studentRoutes); // Mount student routes
 
 mongoose.connect('mongodb://localhost:27017/CampusCodeDB', {
     useNewUrlParser: true,

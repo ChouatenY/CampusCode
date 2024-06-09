@@ -2,6 +2,8 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken'); // Import jsonwebtoken module
 const Admin = require('../models/Admin');
+const Exam = require('../models/Exam');
+ // Import the Exam model
 const authMiddleware = require('../middleware/auth');
 
 const router = express.Router();
@@ -60,6 +62,18 @@ router.post('/login', async (req, res) => {
         res.status(500).json({ message: 'Error logging in admin' });
     }
 });
+
+router.post('/create-exam', async (req, res) => {
+    try {
+        // Create a new exam based on the request body
+        const newExam = await Exam.create(req.body);
+        res.status(201).json(newExam);
+    } catch (error) {
+        console.error('Error creating exam:', error);
+        res.status(500).json({ message: 'Error creating exam' });
+    }
+});
+
 
 router.get('/dashboard', authMiddleware, (req, res) => {
     res.send('Welcome to the admin dashboard');

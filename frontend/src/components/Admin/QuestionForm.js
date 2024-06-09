@@ -1,23 +1,26 @@
 import React, { useState } from 'react';
+import './QuestionForm.css';  // Ensure to create and use this CSS file
 
 const QuestionForm = ({ addQuestion }) => {
-  const [questionText, setQuestionText] = useState('');
+    const [question, setQuestion] = useState('');
 
-  const handleAddQuestion = () => {
-    addQuestion({ questionText });
-    setQuestionText('');
-  };
+    const handleAddQuestion = () => {
+        if (question.trim()) {
+            addQuestion(question);
+            setQuestion('');
+        }
+    };
 
-  return (
-    <div>
-      <textarea
-        placeholder="Question"
-        value={questionText}
-        onChange={(e) => setQuestionText(e.target.value)}
-      />
-      <button onClick={handleAddQuestion}>Add Question</button>
-    </div>
-  );
+    return (
+        <div className="form-group">
+            <textarea
+                placeholder="Enter question here..."
+                value={question}
+                onChange={(e) => setQuestion(e.target.value)}
+            />
+            <button className="add-question-btn" onClick={handleAddQuestion}>Add Question</button>
+        </div>
+    );
 };
 
 export default QuestionForm;
