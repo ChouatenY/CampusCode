@@ -16,6 +16,7 @@ const LoginPage = () => {
         consent: false,
         examCode: ''
     });
+    const [error, setError] = useState('');
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -28,13 +29,15 @@ const LoginPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (Object.values(studentDetails).some(value => !value)) {
+            setError('All fields are required');
+            return;
+        }
         try {
-            // Make a POST request to save student details to the database
             await axios.post('http://localhost:5000/student/login', studentDetails);
-            
-            // Navigate to the student page after successful login
             navigate(`/student/${studentDetails.examCode}`);
         } catch (error) {
+            setError('Error saving student details');
             console.error('Error saving student details:', error);
         }
     };
@@ -109,6 +112,7 @@ const LoginPage = () => {
                         />
                         I consent that the answers are mine.
                     </label>
+                    {error && <p className="error">{error}</p>}
                     <button type="submit">Start Exam</button>
                 </form>
             </div>

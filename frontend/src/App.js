@@ -1,3 +1,4 @@
+// src/App.js
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import AdminPage from './pages/AdminPage';
@@ -13,7 +14,7 @@ function App() {
                 <Route path="/admin" element={<AdminPage />} />
                 <Route path="/admin/login" element={<AdminLoginPage />} />
                 <Route path="/admin/signup" element={<AdminSignupPage />} />
-                <Route path="/student/:examCode" element={<StudentPage />} />
+                <Route path="/student/:examCode" element={<StudentPage />} />  {/* Dynamic route */}
                 <Route path="/" element={<LoginPage />} />
             </Routes>
         </Router>

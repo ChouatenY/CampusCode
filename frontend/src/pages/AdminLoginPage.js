@@ -1,26 +1,83 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './AdminPage.css'; // Make sure this path is correct
-import AdminDashboard from '../components/Admin/AdminDashboard';
+import axios from 'axios';
+import './AdminLoginPage.css';
 
-const AdminPage = () => {
+const AdminLoginPage = () => {
+    const [adminDetails, setAdminDetails] = useState({
+        name: '',
+        adminCode: '',
+        password: ''
+    });
+    const [error, setError] = useState('');
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const token = localStorage.getItem('token');
-        if (!token) {
-            navigate('/admin/login');
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setAdminDetails({
+            ...adminDetails,
+            [name]: value
+        });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (!adminDetails.name || !adminDetails.adminCode || !adminDetails.password) {
+            setError('All fields are required');
+            return;
         }
-    }, [navigate]);
+        try {
+            const response = await axios.post('http://localhost:5000/admin/login', adminDetails);
+            if (response.status === 200) {
+                // Store token or navigate to the admin dashboard
+                // For example, localStorage.setItem('token', response.data.token);
+                navigate('/admin');
+            } else {
+                setError('Invalid credentials');
+            }
+        } catch (error) {
+            if (error.response && error.response.status === 400) {
+                setError('Invalid admin code or password');
+            } else {
+                setError('Error logging in. Please try again.');
+            }
+            console.error('Error logging in:', error);
+        }
+    };
 
     return (
-        <div>
-            <nav className="navbar">
-                <h1 className="navbar-title">Welcome to the Admin Dashboard</h1>
-            </nav>
-            <AdminDashboard />
+        <div className="login-container">
+            <div className="login-card">
+                <h2>Admin Login</h2>
+                <form className="login-form" onSubmit={handleSubmit}>
+                    <input
+                        type="text"
+                        name="name"
+                        placeholder="Name"
+                        value={adminDetails.name}
+                        onChange={handleChange}
+                    />
+                    <input
+                        type="text"
+                        name="adminCode"
+                        placeholder="Admin Code"
+                        value={adminDetails.adminCode}
+                        onChange={handleChange}
+                    />
+                    <input
+                        type="password"
+                        name="password"
+                        placeholder="Password"
+                        value={adminDetails.password}
+                        onChange={handleChange}
+                    />
+                    {error && <p className="error">{error}</p>}
+                    <button type="submit">Login</button>
+                </form>
+                <p>Don't have an account? <a href="/admin/signup">Sign Up</a></p>
+            </div>
         </div>
     );
 };
 
-export default AdminPage;
+export default AdminLoginPage;

@@ -1,10 +1,11 @@
+// src/pages/StudentPage.js
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import axios from 'axios';
 import ExamSession from '../components/Student/ExamSession';
 
 const StudentPage = () => {
-  const { examCode } = useParams();  // Get examCode from URL parameters
+  const { examCode } = useParams(); // Extract examCode from URL parameters
   const [exam, setExam] = useState(null);
 
   useEffect(() => {
