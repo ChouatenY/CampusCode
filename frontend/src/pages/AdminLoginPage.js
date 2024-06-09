@@ -25,7 +25,11 @@ const AdminLoginPage = () => {
             localStorage.setItem('token', response.data.token);
             navigate('/admin');
         } catch (error) {
-            // The error message is no longer printed to the console
+            if (error.response && error.response.status === 400) {
+                console.error('Invalid credentials'); // Display a user-friendly error message for 400 status code
+            } else {
+                console.error('Login failed:', error); // Display the generic error message for other status codes
+            }
         }
     };
 
