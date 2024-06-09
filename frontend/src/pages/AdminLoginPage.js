@@ -29,8 +29,9 @@ const AdminLoginPage = () => {
         try {
             const response = await axios.post('http://localhost:5000/admin/login', adminDetails);
             if (response.status === 200) {
-                // Store token or navigate to the admin dashboard
-                // For example, localStorage.setItem('token', response.data.token);
+                // Store token in local storage
+                localStorage.setItem('adminToken', response.data.token);
+                // Redirect to the admin dashboard
                 navigate('/admin');
             } else {
                 setError('Invalid credentials');

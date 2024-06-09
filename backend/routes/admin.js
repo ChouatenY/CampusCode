@@ -3,11 +3,12 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken'); // Import jsonwebtoken module
 const Admin = require('../models/Admin');
 const Exam = require('../models/Exam');
- // Import the Exam model
 const authMiddleware = require('../middleware/auth');
+const { TOKEN_SECRET, TOKEN_EXPIRATION } = require('../config'); // Assuming you have a config file with token secret and expiration
 
 const router = express.Router();
 
+// Route to sign up a new admin
 router.post('/signup', async (req, res) => {
     const { name, email, course, courseCode, adminCode, password } = req.body;
 
@@ -39,6 +40,7 @@ router.post('/signup', async (req, res) => {
     }
 });
 
+// Route to log in an admin
 router.post('/login', async (req, res) => {
     try {
         const { adminCode, password } = req.body;
@@ -53,8 +55,8 @@ router.post('/login', async (req, res) => {
             return res.status(400).json({ message: 'Invalid admin code or password' });
         }
 
-        // Generate JWT token
-        const token = jwt.sign({ adminId: admin._id }, 'your_secret_key');
+        // Generate JWT token with expiration time
+        const token = jwt.sign({ adminId: admin._id }, TOKEN_SECRET, { expiresIn: TOKEN_EXPIRATION });
 
         res.json({ message: 'Logged in successfully', token });
     } catch (error) {
@@ -63,7 +65,8 @@ router.post('/login', async (req, res) => {
     }
 });
 
-router.post('/create-exam', async (req, res) => {
+// Route to create a new exam (requires authentication)
+router.post('/create-exam', authMiddleware, async (req, res) => {
     try {
         // Create a new exam based on the request body
         const newExam = await Exam.create(req.body);
@@ -74,7 +77,7 @@ router.post('/create-exam', async (req, res) => {
     }
 });
 
-
+// Route to access the admin dashboard (requires authentication)
 router.get('/dashboard', authMiddleware, (req, res) => {
     res.send('Welcome to the admin dashboard');
 });
