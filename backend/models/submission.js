@@ -1,14 +1,22 @@
 const mongoose = require('mongoose');
 
 const submissionSchema = new mongoose.Schema({
-  studentName: String,
-  studentID: String,
+  studentName: { type: String, required: true },
+  matricule: { type: String, required: true },
+  major: { type: String, required: true },
+  specialization: { type: String, required: true },
+  session: { type: String, required: true },
+  courseCode: { type: String, required: true },
+  semester: { type: String, required: true },
+  consent: { type: Boolean, required: true },
+  examCode: { type: String, required: true },
   answers: [{
-    questionId: mongoose.Schema.Types.ObjectId,
-    code: String,
-    result: String
-  }],
-  // add other necessary fields
+    questionId: { type: mongoose.Schema.Types.ObjectId, ref: 'Question', required: true },
+    code: { type: String, required: true },
+    result: { type: String }
+  }]
 });
 
-module.exports = mongoose.model('Submission', submissionSchema);
+const Submission = mongoose.model('Submission', submissionSchema);
+
+module.exports = Submission;

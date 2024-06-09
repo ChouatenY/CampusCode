@@ -1,27 +1,77 @@
+// routes/admin.js
 const express = require('express');
-const router = express.Router();
-const Exam = require('../models/exam');
-const Submission = require('../models/submission');
+const bcrypt = require('bcrypt');
+const Admin = require('../models/Admin');
+const authMiddleware = require('../middleware/auth');
 
-// Create an exam
-router.post('/create-exam', async (req, res) => {
-  const newExam = new Exam(req.body);
+const router = express.Router();
+
+// Admin signup route
+router.post('/signup', async (req, res) => {
+  const { name, email, course, courseCode, adminCode, password } = req.body;
+
+  if (!name || !email || !course || !courseCode || !adminCode || !password) {
+    return res.status(400).json({ error: 'All fields are required' });
+  }
+
   try {
-    const savedExam = await newExam.save();
-    res.status(201).json(savedExam);
+    // Check if the admin already exists
+    const existingAdmin = await Admin.findOne({ email });
+    if (existingAdmin) {
+      return res.status(400).json({ error: 'Admin already exists' });
+    }
+
+    // Hash the password before saving
+    const hashedPassword = await bcrypt.hash(password, 10);
+    console.log('Hashed password:', hashedPassword);
+
+    // Create a new admin
+    const newAdmin = new Admin({
+      name,
+      email,
+      course,
+      courseCode,
+      adminCode,
+      password: hashedPassword,
+    });
+
+    // Save the admin to the database
+    await newAdmin.save();
+    console.log('Admin saved to the database');
+
+    res.status(201).json({ message: 'Admin registered successfully' });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    console.error('Error registering admin:', error);
+    res.status(500).json({ message: 'Error registering admin' });
   }
 });
 
-// Get all submissions
-router.get('/submissions', async (req, res) => {
+// Admin login route
+router.post('/login', async (req, res) => {
   try {
-    const submissions = await Submission.find();
-    res.status(200).json(submissions);
+    const { adminCode, password } = req.body;
+
+    const admin = await Admin.findOne({ adminCode });
+    if (!admin) {
+      return res.status(400).json({ message: 'Invalid admin code or password' });
+    }
+
+    const isMatch = await bcrypt.compare(password, admin.password);
+    if (!isMatch) {
+      return res.status(400).json({ message: 'Invalid admin code or password' });
+    }
+
+    req.session.adminId = admin._id; // Assuming you are using express-session
+    res.json({ message: 'Logged in successfully' });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    console.error('Error logging in admin:', error);
+    res.status(500).json({ message: 'Error logging in admin' });
   }
+});
+
+// Protect admin page route
+router.get('/dashboard', authMiddleware, (req, res) => {
+  res.send('Welcome to the admin dashboard');
 });
 
 module.exports = router;
