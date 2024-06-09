@@ -1,42 +1,79 @@
-body {
-    font-family: sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f0f2f5; /* Light gray background */
-  }
-  
-  .container {
+/* Simple Login Page UI */
+.login-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh; /* Set minimum height for viewport */
-  }
-  
-  /* Login form styling */
-  .login-form {
-    background-color: #fff; /* White background for the form */
-    padding: 30px;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow effect */
-    width: 400px; /* Set width for the form */
-  }
-  
-  .login-form h1 {
+    height: 100vh;
+    background-color: #f5f5f5; /* Light grey background */
+}
+
+.login-card {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    width: 400px;
+    margin: auto; /* Added margin auto to center horizontally */
+}
+
+.login-card h2 {
     text-align: center;
     margin-bottom: 20px;
-  }
-  
-  .login-form input[type="text"],
-  .login-form input[type="password"] {
+    color: #0072c6;
+}
+
+.login-form input {
     width: 100%;
-    padding: 15px;
-    margin-bottom: 10px;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
     border: 1px solid #ccc;
-    border-radius: 3px;
-    box-sizing: border-box; /* Include border in width calculation */
-  }
-  
-  .login-form input[type="text"] {
-    /* Add some decoration for the username field */
-    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMj");
-  }
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.login-form button {
+    background-color: #0072c6;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.login-form button:hover {
+    background-color: #005a9e;
+}
+
+.login-options {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.login-options a {
+    color: #0072c6;
+    text-decoration: none;
+}
+
+.login-options a:hover {
+    color: #005a9e;
+}
+
+.login-image {
+    display: none;
+}
+
+.success-message {
+    position: absolute;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #4caf50; /* Green background color */
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 999; /* Ensure it's on top of other elements */
+}

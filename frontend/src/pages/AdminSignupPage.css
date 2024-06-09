@@ -1,0 +1,61 @@
+/* Simple Signup Page UI */
+.signup-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f2f2f2; /* Light grey background color */
+}
+
+.signup-card {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    width: 400px;
+}
+
+.signup-card h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #0072c6;
+}
+
+.signup-form input {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.signup-form button {
+    background-color: #0072c6;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.signup-form button:hover {
+    background-color: #005a9e;
+}
+
+.signup-options {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.signup-options a {
+    color: #0072c6;
+    text-decoration: none;
+}
+
+.signup-options a:hover {
+    color: #005a9e;
+}
